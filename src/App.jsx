@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import Search from "./component/Search";
 import Header from "./component/Header";
 import Restaurant from "./component/Restaurant";
+import Navbar from "./component/Navbar";
 
 function App() {
   const [restaurants, setRestaurants] = useState([]);
@@ -24,7 +25,7 @@ function App() {
   return (
     <>
       <div className="container flex flex-col items-center mx-auto space-y-4">
-        <Header />
+        <Navbar />
         <Search
           restaurants={restaurants}
           setfilterRestaurant={setfilterRestaurant}
