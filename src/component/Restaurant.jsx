@@ -9,6 +9,7 @@ const Restaurant = ({ restaurants }) => {
           return (
             <Card
               key={restaurant.id} 
+              id ={restaurant.id}
               img={restaurant.img}
               title={restaurant.title}
               type={restaurant.type}
