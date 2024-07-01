@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Search from "./../component/Search";
+import Header from "./../component/Header";
 import Restaurant from "./../component/Restaurant";
 import Navbar from "../component/Navbar";
+
+import AddMenu from './AddMenu';
 
 //คล้ายกับหน้า App.jsxเเต่ต่างกันเเค่ชื่อเอาCodeในนั้นมาใส่ได้เลยเวลาเปิดหน้าเเรกจะขึ้น/Home ดีกว่าไม่มีหน้าเเรกให้เลือกทำไว้สำหรับใช้ Navbar ใน อนาคต
 function Home() {
@@ -20,8 +23,12 @@ function Home() {
         console.log(err.message);
       });
   }, []);
+  const addRestaurant = (newRestaurant) => {
+    setRestaurants([...restaurants, newRestaurant]);
+    setFilterRestaurant([...restaurants, newRestaurant]);
+  };
 
- return (
+  return (
     <>
       <div className="container flex flex-col items-center mx-auto space-y-4">
         <Navbar />
@@ -36,5 +43,4 @@ function Home() {
     </>
   );
 }
- 
 export default Home;
