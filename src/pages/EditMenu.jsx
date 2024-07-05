@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const EditMenu = () => {
   const { id } = useParams();
@@ -9,8 +10,8 @@ const EditMenu = () => {
     type: "",
     img: "",
   });
-  //2.Get Restaurant by ID
 
+  // Get Restaurant by ID
   useEffect(() => {
     fetch(`http://localhost:3000/restaurant/${id}`)
       .then((res) => res.json())
@@ -31,18 +32,30 @@ const EditMenu = () => {
     const updatedRestaurant = { ...restaurant };
 
     try {
-      const res = await fetch("http://localhost:3000/restaurant/"+id, {
+      const res = await fetch(`http://localhost:3000/restaurant/${id}`, {
         method: "PUT",
+        headers: {
+          'Content-Type': 'application/json'
+        },
         body: JSON.stringify(updatedRestaurant),
       });
       if (res.ok) {
-        alert("Restaurant updated successfully!");
+        Swal.fire({
+          icon: 'success',
+          title: 'Restaurant updated successfully',
+        });
         navigate("/Home");
       } else {
-        console.log("Error updating restaurant");
+        Swal.fire({
+          icon: 'error',
+          title: 'Error updating restaurant',
+        });
       }
     } catch (err) {
-      console.log(err.message);
+      Swal.fire({
+        icon: 'error',
+        title: `Error: ${err.message}`,
+      });
     }
   };
 
