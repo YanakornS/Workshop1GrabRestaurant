@@ -3,9 +3,10 @@ import Header from "./Header";
 import RegisterButton from "./RegisterButton";
 import LoginButton from "./LoginButton";
 import UserProfile from "./UserProfile";
+import { useAuthContext } from "../context/AuthContext";
 
 function Navbar() {
-  const user = { name: "Test User" }; // เปลี่ยนจาก null เป็นอ็อบเจ็กต์ที่แทนข้อมูลผู้ใช้
+  const {user} = useAuthContext(); // เปลี่ยนจาก null เป็นอ็อบเจ็กต์ที่แทนข้อมูลผู้ใช้
 
   return (
     <div className="navbar bg-base-100 mt-5 mb-10 h-30">
@@ -53,8 +54,12 @@ function Navbar() {
           <UserProfile />
         ) : (
           <div className="space-x-2">
-            <LoginButton />
-            <RegisterButton />
+            <a href="/login">
+              <LoginButton />
+            </a>
+            <a href="/register">
+              <RegisterButton />
+            </a>
           </div>
         )}
       </div>

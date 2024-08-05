@@ -59,7 +59,7 @@ const Card = ({ id, img, title, type }) => {
           <button className="btn btn-error" onClick={() => handleDelete(id)}>
             Delete
           </button>
-          <a href={`/edit/${id}`} className="btn bg-orange-600">
+          <a href={`/edit/${id}`} className="btn btn-warning">
             Edit
           </a>
         </div>

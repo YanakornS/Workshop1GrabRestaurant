@@ -1,6 +1,19 @@
 import React from "react";
+import { useAuthContext } from "../context/AuthContext";
+//import { useNavigate } from "react-router-dom";
+
+
+
 
 const UserProfile = () => {
+  const { logout } = useAuthContext(); // ดึงฟังก์ชัน logout จาก context
+  //const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout(); // เรียกใช้ฟังก์ชัน logout
+    //navigate("/Login"); // ใช้ navigate เพื่อเปลี่ยนเส้นทางไปที่หน้า Login
+  };
+
   return (
     <div>
       <div className="dropdown dropdown-end">
@@ -11,7 +24,7 @@ const UserProfile = () => {
         >
           <div className="w-10 rounded-full">
             <img
-              alt="Tailwind CSS Navbar component"
+              alt="User Avatar"
               src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
             />
           </div>
@@ -30,7 +43,7 @@ const UserProfile = () => {
             <a>Settings</a>
           </li>
           <li>
-            <a>Logout</a>
+            <a onClick={handleLogout}>Logout</a>
           </li>
         </ul>
       </div>

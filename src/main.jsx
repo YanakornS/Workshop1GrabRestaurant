@@ -5,12 +5,15 @@ import "./index.css";
 import { RouterProvider } from "react-router-dom";
 import  router  from "./routers/Router.jsx";
 import Navbar from "./component/Navbar.jsx";
+import { AuthProvider } from "./context/AuthContext.jsx";
 
 
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <Navbar />
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <Navbar />
+      <RouterProvider router={router} />
+    </AuthProvider>
   </React.StrictMode>
 );
