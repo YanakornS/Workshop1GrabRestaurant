@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import LoginButton from "../component/LoginButton";
 import RegisterButton from "../component/RegisterButton";
 import AuthService from "../services/auth.services";
@@ -12,9 +12,15 @@ const Login = () => {
     password: "",
   });
 
-  const navigate = useNavigate();
 
-  const { login } = useAuthContext();
+  const navigate = useNavigate();
+  const { login, user: loggedInUser } = useAuthContext();
+    useEffect(() => {
+      if (loggedInUser) {
+        navigate("/");
+      }
+
+    }, [loggedInUser]);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUser((user) => ({ ...user, [name]: value }));
@@ -25,7 +31,7 @@ const Login = () => {
     try {
       const currentUser = await AuthService.login(user.username, user.password);
       if (currentUser.status === 200) {
-       login(currentUser);
+        login(currentUser.data);
         Swal.fire({
           title: "User Login",
           text: "Login successfully",

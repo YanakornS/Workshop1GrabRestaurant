@@ -6,7 +6,7 @@ import UserProfile from "./UserProfile";
 import { useAuthContext } from "../context/AuthContext";
 
 function Navbar() {
-  const {user} = useAuthContext(); // เปลี่ยนจาก null เป็นอ็อบเจ็กต์ที่แทนข้อมูลผู้ใช้
+  const { user } = useAuthContext(); // เปลี่ยนจาก null เป็นอ็อบเจ็กต์ที่แทนข้อมูลผู้ใช้
 
   return (
     <div className="navbar bg-base-100 mt-5 mb-10 h-30">
@@ -49,9 +49,24 @@ function Navbar() {
           <Header />
         </a>
       </div>
-      <div className="navbar-end">
+      <div className="navbar-end space-x-2">
+        {user && (
+          <div>
+            Welcome, <span className="text-green-500">{user.username}</span>
+            {""}
+            {user.roles.map((role, index) => {
+              return (
+                <div key={index} className="{badge badge-ghost text-xs badge }">
+                  {role}
+                </div>
+              );
+            })}
+          </div>
+        )}
         {user ? (
-          <UserProfile />
+          <div className="flex items-center space-x-2">
+            <UserProfile />
+          </div>
         ) : (
           <div className="space-x-2">
             <a href="/login">

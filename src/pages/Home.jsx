@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Search from "./../component/Search";
 import Header from "./../component/Header";
 import Restaurant from "./../component/Restaurant";
+import RestaurantService from "../services/restaurant.service";
 
 //คล้ายกับหน้า App.jsxเเต่ต่างกันเเค่ชื่อเอาCodeในนั้นมาใส่ได้เลยเวลาเปิดหน้าเเรกจะขึ้น/Home ดีกว่าไม่มีหน้าเเรกให้เลือกทำไว้สำหรับใช้ Navbar ใน อนาคต
 function Home() {
@@ -9,22 +10,42 @@ function Home() {
   const [filterRestaurant, setfilterRestaurant] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3000/restaurant")
-      .then((res) => {
-        return res.json();
-      })
-      .then((response) => {
-        setRestaurants(response);
-        setfilterRestaurant(response);
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
+    const getRestaurants = async () => {
+      try {
+        const response = await RestaurantService.getAllRestaurant();
+        console.log(response);
+        if (response.status === 200) {
+          setRestaurants(response.data);
+          setfilterRestaurant(response.data);
+        }
+      } catch (error) {
+        Swal.fire({
+          title: "Get All Restaurant",
+          text: error?.response?.data?.message || error.message,
+          icon: "error",
+        });
+      }
+    };
+    getRestaurants();
   }, []);
-  const addRestaurant = (newRestaurant) => {
-    setRestaurants([...restaurants, newRestaurant]);
-    setFilterRestaurant([...restaurants, newRestaurant]);
-  };
+
+  // useEffect(() => {
+  //   fetch("http://localhost:3000/restaurant")
+  //     .then((res) => {
+  //       return res.json();
+  //     })
+  //     .then((response) => {
+  //       setRestaurants(response);
+  //       setfilterRestaurant(response);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err.message);
+  //     });
+  // }, []);
+  // const addRestaurant = (newRestaurant) => {
+  //   setRestaurants([...restaurants, newRestaurant]);
+  //   setFilterRestaurant([...restaurants, newRestaurant]);
+  // };
 
   return (
     <>

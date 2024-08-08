@@ -8,10 +8,10 @@ const Restaurant = ({ restaurants }) => {
         restaurants.map((restaurant) => {
           return (
             <Card
-              key={restaurant.id} 
-              id ={restaurant.id}
-              img={restaurant.img}
-              title={restaurant.title}
+              key={restaurant.id}
+              id={restaurant.id}
+              imageUrl={restaurant.imageUrl}
+              name={restaurant.name}
               type={restaurant.type}
             />
           );

@@ -1,7 +1,7 @@
 import React from "react";
 import Swal from "sweetalert2";
 
-const Card = ({ id, img, title, type }) => {
+const Card = ({ id, imageUrl, name, type }) => {
   const handleDelete = async (id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -48,12 +48,12 @@ const Card = ({ id, img, title, type }) => {
     <div className="card w-96 bg-base-100 shadow-xl h-96 mx-4 mb-4">
       <figure>
         <img
-          src={img} // ใช้ prop img แทน URL ที่เขียนตรงนี้
-          alt={title} // ใช้ prop title เป็น alt text
+          src={imageUrl} // ใช้ prop img แทน URL ที่เขียนตรงนี้
+          alt={name} // ใช้ prop title เป็น alt text
         />
       </figure>
       <div className="card-body">
-        <h2 className="card-title">{title}</h2>
+        <h2 className="card-title">{name}</h2>
         <p>{type}</p>
         <div className="card-actions justify-end">
           <button className="btn btn-error" onClick={() => handleDelete(id)}>
