@@ -1,26 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import RestaurantService from "../services/restaurant.service";
 
 const EditMenu = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [restaurant, setRestaurant] = useState({
-    title: "",
+    name: "",
     type: "",
-    img: "",
+    imageUrl: "",
   });
 
   // Get Restaurant by ID
   useEffect(() => {
-    fetch(`http://localhost:3000/restaurant/${id}`)
-      .then((res) => res.json())
-      .then((response) => {
-        setRestaurant(response);
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
+      RestaurantService.getRestaurantById(id).then((response)=>{
+        if(response.status === 200){
+          setRestaurant(response.data);
+        }
+      }
+      )
   }, [id]);
 
   const handleChange = (e) => {
@@ -30,45 +29,34 @@ const EditMenu = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const updatedRestaurant = { ...restaurant };
-
     try {
-      const res = await fetch(`http://localhost:3000/restaurant/${id}`, {
-        method: "PUT",
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(updatedRestaurant),
-      });
-      if (res.ok) {
+      const response = await RestaurantService.editRestaurant(id,restaurant);
+      if(response.status === 200){
         Swal.fire({
-          icon: 'success',
-          title: 'Restaurant updated successfully',
+          title: " Restaurant Update",
+          text: response.data.message,
+          icon:"success",
         });
-        navigate("/Home");
-      } else {
-        Swal.fire({
-          icon: 'error',
-          title: 'Error updating restaurant',
-        });
+        navigate("/Home")
       }
-    } catch (err) {
+    } catch (error) {
       Swal.fire({
-        icon: 'error',
-        title: `Error: ${err.message}`,
+        title :"Restaurant Update",
+        text: error?.response?.data?.message || error.message,
+        icon:"error",
       });
     }
   };
-
   return (
     <div className="flex items-center justify-center h-full">
       <div className="w-96 bg-base-100 shadow-xl m-2 p-4 rounded-lg">
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block">Title:</label>
+            <label className="block">Name:</label>
             <input
               type="text"
-              name="title"
-              value={restaurant.title}
+              name="name"
+              value={restaurant.name}
               onChange={handleChange}
               className="input input-bordered w-full"
               required
@@ -89,8 +77,8 @@ const EditMenu = () => {
             <label className="block">Image URL:</label>
             <input
               type="text"
-              name="img"
-              value={restaurant.img}
+              name="imageUrl"
+              value={restaurant.imageUrl}
               onChange={handleChange}
               className="input input-bordered w-full"
               required

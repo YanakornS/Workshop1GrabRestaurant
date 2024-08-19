@@ -1,65 +1,49 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import RestaurantService from '../services/restaurant.service';
+
 
 const AddMenu = () => {
-  const [title, setTitle] = useState('');
-  const [type, setType] = useState('');
-  const [img, setImg] = useState('');
+  const [name, setname] = useState("");
+  const [type, setType] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
   const navigate = useNavigate();
-
-  useEffect(() => {
-    Swal.bindClickHandler();
-
-    Swal.mixin({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 3000,
-      timerProgressBar: true,
-      didOpen: (toast) => {
-        toast.onmouseenter = Swal.stopTimer;
-        toast.onmouseleave = Swal.resumeTimer;
-      }
-    }).bindClickHandler('data-swal-toast-template');
-  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const newRestaurant = { title, type, img };
+    const newRestaurant = { name, type, imageUrl };
 
     try {
-      const res = await fetch("http://localhost:3000/restaurant", {
-        method: "POST",
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(newRestaurant),
-      });
-      const data = await res.json();
-      if (res.ok) {
+      const res = await RestaurantService.insertRestaurant(newRestaurant);// ใช้ RestaurantService
+      if (res.status === 200) {
+        // ตรวจสอบสถานะการตอบกลับ
         Swal.fire({
-          icon: 'success',
-          title: 'Restaurant added successfully',
+          icon: "success",
+          title: "Restaurant added successfully",
+          text: "The restaurant has been added successfully!",
         });
-        setTitle("");
+        setname("");
         setType("");
-        setImg("");
+        setImageUrl("");
         navigate("/");
       } else {
+        const data = await res.json();
         Swal.fire({
-          icon: 'error',
-          title: `Error: ${data.message}`,
+          icon: "error",
+          title: "Error",
+          text: `Error: ${data.message}`,
         });
       }
     } catch (err) {
+      console.log(err);
       Swal.fire({
-        icon: 'error',
-        title: `Error: ${err.message}`,
+        icon: "error",
+        title: "Error",
+        text: `Error: ${err.message}`,
       });
     }
   };
-
   return (
     <div className="flex items-center justify-center h-full">
       <div className="w-96 bg-base-100 shadow-xl m-2 p-4 rounded-lg">
@@ -68,8 +52,8 @@ const AddMenu = () => {
             <label className="block">Title:</label>
             <input
               type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              value={name}
+              onChange={(e) => setname(e.target.value)}
               className="input input-bordered w-full"
               required
             />
@@ -88,8 +72,8 @@ const AddMenu = () => {
             <label className="block">Image URL:</label>
             <input
               type="text"
-              value={img}
-              onChange={(e) => setImg(e.target.value)}
+              value={imageUrl}
+              onChange={(e) => setImageUrl(e.target.value)}
               className="input input-bordered w-full"
               required
             />
@@ -101,19 +85,7 @@ const AddMenu = () => {
           </div>
         </form>
       </div>
-
-      <template id="my-template">
-        <swal-title>Restaurant added successfully!</swal-title>
-        <swal-icon type="success"></swal-icon>
-        <swal-button type="confirm">OK</swal-button>
-      </template>
-
-      <template id="my-toast-template">
-        <swal-title>Action was successful!</swal-title>
-        <swal-icon type="success"></swal-icon>
-      </template>
     </div>
   );
 };
-
 export default AddMenu;
