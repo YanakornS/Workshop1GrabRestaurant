@@ -7,6 +7,18 @@ import { useAuthContext } from "../context/AuthContext";
 
 function Navbar() {
   const { user } = useAuthContext(); // เปลี่ยนจาก null เป็นอ็อบเจ็กต์ที่แทนข้อมูลผู้ใช้
+  const menus = {
+    ROLES_ADMIN: [
+      { name: "Add restaurant", link: "/addMenu" },
+      { name: "Home", link: "/home" },
+      { name: "Dashboard", link: "/dashboard" },
+    ],
+    ROLES_USER: [{ name: "Home", link: "/home" }],
+    ROLES_MODERATOR: [
+      { name: "Add restaurant", link: "/addMenu" },
+      { name: "Search", link: "/search" },
+    ],
+  };
 
   return (
     <div className="navbar bg-base-100 mt-5 mb-10 h-30">
@@ -32,15 +44,12 @@ function Navbar() {
             tabIndex={0}
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
           >
-            <li>
-              <a href="/">Home</a>
-            </li>
-            <li>
-              <a href="/AddMenu">AddMenu</a>
-            </li>
-            <li>
-              <a href="#about">About</a>
-            </li>
+            {user &&
+              menus[user.roles[0]].map((menuItem) =>(
+                <li key={menuItem.name}>
+                  <a href={menuItem.link}>{menuItem.name}</a>
+                </li>
+              ))}
           </ul>
         </div>
       </div>

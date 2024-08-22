@@ -2,9 +2,6 @@ import React from "react";
 import { useAuthContext } from "../context/AuthContext";
 //import { useNavigate } from "react-router-dom";
 
-
-
-
 const UserProfile = () => {
   const { logout } = useAuthContext(); // ดึงฟังก์ชัน logout จาก context
   //const navigate = useNavigate();
@@ -25,7 +22,7 @@ const UserProfile = () => {
           <div className="w-10 rounded-full">
             <img
               alt="User Avatar"
-              src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+              src="https://scontent.fbkk17-1.fna.fbcdn.net/v/t1.15752-9/455351962_1222935558717090_1544837432053514304_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=9f807c&_nc_ohc=GDG_FziVimsQ7kNvgFJ9eIR&_nc_ht=scontent.fbkk17-1.fna&oh=03_Q7cD1QFCoaOzNPxYrTBCMISerpX0Jr9bxCCcnbrL9vsLgvVMWQ&oe=66EE550A"
             />
           </div>
         </div>

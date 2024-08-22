@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import Swal from 'sweetalert2';
-import RestaurantService from '../services/restaurant.service';
-
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import RestaurantService from "../services/restaurant.service";
 
 const AddMenu = () => {
   const [name, setname] = useState("");
@@ -15,7 +14,7 @@ const AddMenu = () => {
     const newRestaurant = { name, type, imageUrl };
 
     try {
-      const res = await RestaurantService.insertRestaurant(newRestaurant);// ใช้ RestaurantService
+      const res = await RestaurantService.insertRestaurant(newRestaurant); // ใช้ RestaurantService
       if (res.status === 200) {
         // ตรวจสอบสถานะการตอบกลับ
         Swal.fire({
